@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Biodata Muhammad Fazamizal (Mizal)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen p-4 sm:p-6">
+
+  <div class="max-w-2xl mx-auto space-y-6">
+    <!-- Bar Atas -->
+    <div class="flex flex-wrap items-center justify-between gap-2 bg-white px-5 py-4 rounded-2xl shadow-sm border border-slate-200">
+      <span class="font-bold text-slate-900">Kad Biodata Digital</span>
+      <div class="flex flex-wrap items-center gap-2">
+        <button id="shareLinkBtn" type="button" class="px-3 py-2 rounded-xl bg-sky-50 hover:bg-sky-100 text-sky-700 border border-sky-200 text-xs font-semibold">
+          Kongsi Link
+        </button>
+        <button id="openQrBtn" type="button" class="px-3 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 text-xs font-semibold">
+          Kod QR
+        </button>
+        <button id="lockBtn" type="button" class="hidden px-3 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-semibold">
+          Kunci
+        </button>
+        <button id="openEditBtn" type="button" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold">
+          Edit Biodata
+        </button>
+      </div>
+    </div>
+
+    <!-- Notifikasi Ringkas -->
+    <div id="toastBox" class="hidden px-4 py-2.5 rounded-xl bg-slate-900 text-white text-xs font-medium text-center shadow"></div>
+
+    <!-- Kad Paparan Biodata -->
+    <div class="bg-white rounded-3xl shadow-sm border border-slate-200 overflow-hidden">
+      <div class="h-28 bg-gradient-to-r from-indigo-600 to-sky-500"></div>
+
+      <div class="px-6 pb-7 -mt-14 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <img id="viewAvatar" src="https://api.dicebear.com/9.x/initials/svg?seed=Mizal" alt="Gambar Profil"
+            class="w-28 h-28 rounded-full object-cover border-4 border-white shadow bg-slate-200" />
+          <span id="viewStatus" class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 w-fit">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span id="viewStatusText">Sedang aktif</span>
+          </span>
+        </div>
+
+        <div>
+          <h1 id="viewName" class="text-2xl font-bold text-slate-900">Nama Anda</h1>
+          <p class="text-sm text-slate-500 mt-0.5">
+            Umur: <span id="viewAge" class="font-medium text-slate-700">-</span> •
+            Status: <span id="viewMarital" class="font-medium text-slate-700">-</span>
+          </p>
+        </div>
+
+        <!-- Pautan Web / URL -->
+        <div class="p-4 rounded-2xl bg-indigo-50/60 border border-indigo-200">
+          <p class="text-xs font-semibold uppercase tracking-wider text-indigo-500">Pautan Web (URL)</p>
+          <a id="viewWebsiteLink" href="#" target="_blank" rel="noopener noreferrer"
+            class="hidden mt-1 inline-block text-sm font-semibold text-indigo-700 hover:underline break-all">
+            -
+          </a>
+          <p id="viewWebsiteEmpty" class="mt-1 text-sm text-slate-500">Belum ditetapkan (contoh: https://contoh.com)</p>
+        </div>
+
+        <!-- Ucapan -->
+        <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Ucapan Saya</p>
+          <p id="viewGreeting" class="text-sm text-slate-700 mt-1 whitespace-pre-line">Selamat datang ke laman biodata peribadi saya.</p>
+        </div>
+
+        <!-- Alamat & Telefon -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+            <p class="text-xs font-semibold text-slate-400">Alamat</p>
+            <p id="viewAddress" class="font-medium text-slate-800 mt-1">-</p>
+            <a id="viewMapsLink" href="#" target="_blank" rel="noopener noreferrer"
+              class="hidden inline-block mt-2 text-xs font-semibold text-indigo-600 hover:underline">
+              Buka Google Maps →
+            </a>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+            <p class="text-xs font-semibold text-slate-400">No. Telefon</p>
+            <p id="viewPhone" class="font-medium text-slate-800 mt-1">-</p>
+            <a id="viewCallLink" href="#" class="hidden inline-block mt-2 text-xs font-semibold text-indigo-600 hover:underline">
+              Panggil Sekarang →
+            </a>
+          </div>
+        </div>
+
+        <!-- WhatsApp & Media Sosial -->
+        <div class="space-y-2 pt-1">
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">WhatsApp & Media Sosial</p>
+          <div class="flex flex-wrap gap-2">
+            <a id="btnWhatsapp" href="#" target="_blank" rel="noopener noreferrer"
+              class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold">
+              WhatsApp
+            </a>
+            <a id="btnTiktok" href="#" target="_blank" rel="noopener noreferrer"
+              class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold">
+              TikTok
+            </a>
+            <a id="btnInstagram" href="#" target="_blank" rel="noopener noreferrer"
+              class="px-4 py-2.5 rounded-xl bg-pink-600 hover:bg-pink-700 text-white text-xs font-semibold">
+              Instagram
+            </a>
+            <a id="btnFacebook" href="#" target="_blank" rel="noopener noreferrer"
+              class="px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold">
+              Facebook
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Borang Edit Biodata -->
+    <form id="editForm" class="hidden bg-white p-6 rounded-3xl shadow-sm border border-indigo-200 space-y-4">
+      <h2 class="text-lg font-bold text-slate-900">Sunting Maklumat Biodata</h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold">Gambar Profil (Pilih Fail)</label>
+          <input id="inputAvatarFile" type="file" accept="image/*" class="mt-1 w-full text-xs" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold">Atau URL Gambar</label>
+          <input id="inputAvatarUrl" type="url" placeholder="https://..." class="mt-1 w-full rounded-xl border px-3 py-2 text-sm" />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-xs font-semibold">Nama</label>
+          <input id="inputName" type="text" class="mt-1 w-full rounded-xl border px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold">Umur</label>
+          <input id="inputAge" type="number" class="mt-1 w-full rounded-xl border px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold">Status</label>
+          <input id="inputMarital" type="text" placeholder="Contoh: Bujang / Pelajar" class="mt-1 w-full rounded-xl border px-3 py-2 text-sm" />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold">Status Semasa</label>
+          <input id="inputStatus" type="text" placeholder="Contoh: Aktif di WhatsApp" class="mt-1 w-full rounded-xl border px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold">Pautan Web (http:// atau https://)</label>
+          <input id="inputWebsite" type="text" placeholder="https://contoh.com" class="mt-1 w-full rounded-xl border px-3 py-2 text-sm" />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold">Alamat</label>
+          <input id="inputAddress" type="text" class="mt-1 w-full rounded-xl border px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold">Link Google Maps</label>
+          <input id="inputMaps" type="url" placeholder="https://maps.google.com/..." class="mt-1 w-full rounded-xl border px-3 py-2 text-sm" />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-xs font-semibold">No. Telefon</label>
+          <input id="inputPhone" type="text" placeholder="01X-XXXXXXX" class="mt-1 w-full rounded-xl border px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold">No. WhatsApp</label>
+          <input id="inputWhatsapp" type="text" placeholder="601X-XXXXXXX" class="mt-1 w-full rounded-xl border px-3 py-2 text-sm" />
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-xs font-semibold">Link TikTok</label>
+          <input id="inputTiktok" type="url" placeholder="https://tiktok.com/@..." class="mt-1 w-full rounded-xl border px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold">Link Instagram</label>
+          <input id="inputInstagram" type="url" placeholder="https://instagram.com/..." class="mt-1 w-full rounded-xl border px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold">Link Facebook</label>
+          <input id="inputFacebook" type="url" placeholder="https://facebook.com/..." class="mt-1 w-full rounded-xl border px-3 py-2 text-sm" />
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold">Ucapan Saya</label>
+        <textarea id="inputGreeting" rows="3" class="mt-1 w-full rounded-xl border px-3 py-2 text-sm"></textarea>
+      </div>
+
+      <!-- Tukar Username & Password -->
+      <div class="p-4 rounded-2xl bg-rose-50 border border-rose-200 space-y-3">
+        <p class="text-xs font-bold text-rose-900">Tukar Username & Password (Biarkan kosong jika tidak mahu tukar)</p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-rose-800">Username Baharu</label>
+            <input id="inputNewUsername" type="text" class="mt-1 w-full rounded-xl border bg-white px-3 py-2 text-sm" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-rose-800">Password Baharu</label>
+            <input id="inputNewPassword" type="password" class="mt-1 w-full rounded-xl border bg-white px-3 py-2 text-sm" />
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2 pt-2">
+        <button type="button" id="cancelEditBtn" class="px-4 py-2 rounded-xl border text-xs font-semibold">Batal</button>
+        <button type="submit" class="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold">Simpan Biodata</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Modal Kod QR -->
+  <div id="qrModal" class="fixed inset-0 hidden items-center justify-center bg-black/60 p-4 z-50">
+    <div class="w-full max-w-xs rounded-2xl bg-white p-6 shadow-xl text-center space-y-4">
+      <div>
+        <h2 class="text-base font-bold text-slate-900">Kod QR Biodata</h2>
+        <p id="qrCaption" class="text-xs text-slate-500 mt-1 break-all"></p>
+      </div>
+      <div id="qrBox" class="flex justify-center p-3 bg-white rounded-xl border border-slate-200"></div>
+      <div class="flex justify-center gap-2">
+        <button id="downloadQrBtn" type="button" class="px-3 py-2 rounded-xl bg-indigo-600 text-white text-xs font-semibold">
+          Muat Turun QR
+        </button>
+        <button id="closeQrBtn" type="button" class="px-3 py-2 rounded-xl border text-xs font-semibold">
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Log Masuk -->
+  <div id="loginModal" class="fixed inset-0 hidden items-center justify-center bg-black/60 p-4 z-50">
+    <div class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
+      <h2 class="text-lg font-bold">Log Masuk Admin</h2>
+      <p class="text-xs text-slate-500 mt-1">Masukkan username dan password anda.</p>
+      <form id="loginForm" class="mt-4 space-y-3">
+        <div>
+          <label class="block text-xs font-semibold">Username</label>
+          <input id="loginUsername" type="text" required class="mt-1 w-full rounded-xl border px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold">Password</label>
+          <input id="loginPassword" type="password" required class="mt-1 w-full rounded-xl border px-3 py-2 text-sm" />
+        </div>
+        <p id="loginError" class="hidden text-xs font-semibold text-rose-600"></p>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" id="cancelLoginBtn" class="px-4 py-2 rounded-xl border text-xs font-semibold">Batal</button>
+          <button type="submit" class="px-4 py-2 rounded-xl bg-indigo-600 text-white text-xs font-semibold">Log Masuk</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const DATA_KEY = "my_biodata_profile_v1";
+    const AUTH_KEY = "my_biodata_auth_v1";
+
+    let failedAttempts = 0;
+    let lockUntil = 0;
+    let isUnlocked = false;
+    let tempAvatarData = "";
+    let toastTimer = null;
+
+    const defaultProfile = {
+      avatar: "https://api.dicebear.com/9.x/initials/svg?seed=Mizal",
+      name: "Muhammad Fazamizal bin Azmi (Mizal)",
+      age: "24",
+      marital: "Bujang • Pelajar",
+      status: "Sedang aktif",
+      website: "",
+      address: "Pengkalan Chepa, Kota Bharu, Kelantan",
+      maps: "",
+      phone: "",
+      whatsapp: "",
+      tiktok: "",
+      instagram: "",
+      facebook: "",
+      greeting: "Salam kenal! Ini ialah laman biodata peribadi saya."
+    };
+
+    function normalizeUrl(raw) {
+      const val = (raw || "").trim();
+      if (!val) return "";
+      if (/^https?:\/\//i.test(val)) return val;
+      return `https://${val}`;
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById("toastBox");
+      box.textContent = msg;
+      box.classList.remove("hidden");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => box.classList.add("hidden"), 2500);
+    }
+
+    function cleanDigits(str) {
+      return (str || "").replace(/\D/g, "");
+    }
+
+    function formatWaLink(num) {
+      let digits = cleanDigits(num);
+      if (!digits) return "";
+      if (digits.startsWith("0")) digits = "60" + digits.slice(1);
+      return `https://wa.me/${digits}`;
+    }
+
+    function getShareLink() {
+      const p = getProfile();
+      const web = normalizeUrl(p.website);
+      const isHttp = window.location.protocol === "http:" || window.location.protocol === "https:";
+      const wa = formatWaLink(p.whatsapp || p.phone);
+      return web || (isHttp ? window.location.href : (wa || p.tiktok || p.instagram || p.facebook || window.location.href));
+    }
+
+    async function hashPassword(plain) {
+      const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(plain));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    async function getAuth() {
+      const saved = localStorage.getItem(AUTH_KEY);
+      if (saved) return JSON.parse(saved);
+      const auth = { username: "mizal", passwordHash: await hashPassword("123456") };
+      localStorage.setItem(AUTH_KEY, JSON.stringify(auth));
+      return auth;
+    }
+
+    function getProfile() {
+      const saved = localStorage.getItem(DATA_KEY);
+      return saved ? { ...defaultProfile, ...JSON.parse(saved) } : { ...defaultProfile };
+    }
+
+    function renderProfile() {
+      const p = getProfile();
+      document.getElementById("viewAvatar").src = p.avatar || defaultProfile.avatar;
+      document.getElementById("viewName").textContent = p.name || "Nama Anda";
+      document.getElementById("viewAge").textContent = p.age ? `${p.age} tahun` : "-";
+      document.getElementById("viewMarital").textContent = p.marital || "-";
+      document.getElementById("viewStatusText").textContent = p.status || "Sedang aktif";
+      document.getElementById("viewGreeting").textContent = p.greeting || "-";
+      document.getElementById("viewAddress").textContent = p.address || "-";
+
+      const webUrl = normalizeUrl(p.website);
+      const webLinkEl = document.getElementById("viewWebsiteLink");
+      const webEmptyEl = document.getElementById("viewWebsiteEmpty");
+      if (webUrl) {
+        webLinkEl.href = webUrl;
+        webLinkEl.textContent = webUrl;
+        webLinkEl.classList.remove("hidden");
+        webEmptyEl.classList.add("hidden");
+      } else {
+        webLinkEl.classList.add("hidden");
+        webEmptyEl.classList.remove("hidden");
+      }
+
+      const mapsEl = document.getElementById("viewMapsLink");
+      if (p.maps) {
+        mapsEl.href = p.maps;
+        mapsEl.classList.remove("hidden");
+      } else {
+        mapsEl.classList.add("hidden");
+      }
+
+      const phoneDigits = cleanDigits(p.phone);
+      document.getElementById("viewPhone").textContent = p.phone || "-";
+      const callEl = document.getElementById("viewCallLink");
+      if (phoneDigits) {
+        callEl.href = `tel:${phoneDigits}`;
+        callEl.classList.remove("hidden");
+      } else {
+        callEl.classList.add("hidden");
+      }
+
+      const setupSocial = (id, url) => {
+        const el = document.getElementById(id);
+        if (url && url !== "#") {
+          el.href = url;
+          el.classList.remove("opacity-40", "pointer-events-none");
+        } else {
+          el.href = "#";
+          el.classList.add("opacity-40", "pointer-events-none");
+        }
+      };
+
+      const waLink = formatWaLink(p.whatsapp || p.phone);
+      setupSocial("btnWhatsapp", waLink || "#");
+      setupSocial("btnTiktok", p.tiktok);
+      setupSocial("btnInstagram", p.instagram);
+      setupSocial("btnFacebook", p.facebook);
+    }
+
+    function fillEditForm() {
+      const p = getProfile();
+      tempAvatarData = p.avatar || "";
+      document.getElementById("inputAvatarUrl").value = p.avatar && p.avatar.startsWith("http") ? p.avatar : "";
+      document.getElementById("inputName").value = p.name;
+      document.getElementById("inputAge").value = p.age;
+      document.getElementById("inputMarital").value = p.marital;
+      document.getElementById("inputStatus").value = p.status;
+      document.getElementById("inputWebsite").value = p.website || "";
+      document.getElementById("inputAddress").value = p.address;
+      document.getElementById("inputMaps").value = p.maps;
+      document.getElementById("inputPhone").value = p.phone;
+      document.getElementById("inputWhatsapp").value = p.whatsapp;
+      document.getElementById("inputTiktok").value = p.tiktok;
+      document.getElementById("inputInstagram").value = p.instagram;
+      document.getElementById("inputFacebook").value = p.facebook;
+      document.getElementById("inputGreeting").value = p.greeting;
+      document.getElementById("inputNewUsername").value = "";
+      document.getElementById("inputNewPassword").value = "";
+    }
+
+    document.getElementById("inputAvatarFile").addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        tempAvatarData = reader.result;
+        document.getElementById("inputAvatarUrl").value = "";
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Kongsi Link
+    document.getElementById("shareLinkBtn").addEventListener("click", async () => {
+      const link = getShareLink();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        try {
+          await navigator.clipboard.writeText(link);
+          showToast(`Pautan disalin: ${link}`);
+          return;
+        } catch (_) {}
+      }
+      prompt("Salin pautan ini:", link);
+    });
+
+    // Kod QR
+    const qrModal = document.getElementById("qrModal");
+    const qrBox = document.getElementById("qrBox");
+
+    document.getElementById("openQrBtn").addEventListener("click", () => {
+      if (typeof QRCode === "undefined") {
+        showToast("Pustaka Kod QR memerlukan sambungan internet.");
+        return;
+      }
+      const link = getShareLink();
+      qrBox.innerHTML = "";
+      document.getElementById("qrCaption").textContent = link;
+      new QRCode(qrBox, {
+        text: link,
+        width: 180,
+        height: 180
+      });
+      qrModal.classList.remove("hidden");
+      qrModal.classList.add("flex");
+    });
+
+    document.getElementById("closeQrBtn").addEventListener("click", () => {
+      qrModal.classList.add("hidden");
+      qrModal.classList.remove("flex");
+    });
+
+    document.getElementById("downloadQrBtn").addEventListener("click", () => {
+      const img = qrBox.querySelector("img");
+      const canvas = qrBox.querySelector("canvas");
+      const src = img ? img.src : (canvas ? canvas.toDataURL("image/png") : "");
+      if (!src) return;
+      const a = document.createElement("a");
+      a.href = src;
+      a.download = "qr-biodata.png";
+      a.click();
+    });
+
+    const loginModal = document.getElementById("loginModal");
+    const loginError = document.getElementById("loginError");
+    const editForm = document.getElementById("editForm");
+    const lockBtn = document.getElementById("lockBtn");
+
+    function openEditPanel() {
+      fillEditForm();
+      editForm.classList.remove("hidden");
+      lockBtn.classList.remove("hidden");
+    }
+
+    function lockPanel() {
+      isUnlocked = false;
+      editForm.classList.add("hidden");
+      lockBtn.classList.add("hidden");
+    }
+
+    document.getElementById("openEditBtn").addEventListener("click", () => {
+      if (isUnlocked) return openEditPanel();
+      loginError.classList.add("hidden");
+      document.getElementById("loginForm").reset();
+      loginModal.classList.remove("hidden");
+      loginModal.classList.add("flex");
+    });
+
+    document.getElementById("cancelLoginBtn").addEventListener("click", () => {
+      loginModal.classList.add("hidden");
+      loginModal.classList.remove("flex");
+    });
+
+    document.getElementById("cancelEditBtn").addEventListener("click", lockPanel);
+    lockBtn.addEventListener("click", lockPanel);
+
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (Date.now() < lockUntil) {
+        const sisa = Math.ceil((lockUntil - Date.now()) / 1000);
+        loginError.textContent = `Dikunci sementara. Cuba lagi dalam ${sisa} saat.`;
+        loginError.classList.remove("hidden");
+        return;
+      }
+
+      const auth = await getAuth();
+      const u = document.getElementById("loginUsername").value.trim();
+      const p = document.getElementById("loginPassword").value;
+      const h = await hashPassword(p);
+
+      if (u === auth.username && h === auth.passwordHash) {
+        failedAttempts = 0;
+        isUnlocked = true;
+        loginModal.classList.add("hidden");
+        loginModal.classList.remove("flex");
+        openEditPanel();
+      } else {
+        failedAttempts += 1;
+        if (failedAttempts >= 3) {
+          lockUntil = Date.now() + 30000;
+          loginError.textContent = "Salah 3 kali! Dikunci selama 30 saat.";
+        } else {
+          loginError.textContent = `Username atau password salah (${failedAttempts}/3).`;
+        }
+        loginError.classList.remove("hidden");
+      }
+    });
+
+    editForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const urlVal = document.getElementById("inputAvatarUrl").value.trim();
+      const updated = {
+        avatar: urlVal || tempAvatarData || defaultProfile.avatar,
+        name: document.getElementById("inputName").value.trim(),
+        age: document.getElementById("inputAge").value.trim(),
+        marital: document.getElementById("inputMarital").value.trim(),
+        status: document.getElementById("inputStatus").value.trim(),
+        website: normalizeUrl(document.getElementById("inputWebsite").value),
+        address: document.getElementById("inputAddress").value.trim(),
+        maps: document.getElementById("inputMaps").value.trim(),
+        phone: document.getElementById("inputPhone").value.trim(),
+        whatsapp: document.getElementById("inputWhatsapp").value.trim(),
+        tiktok: document.getElementById("inputTiktok").value.trim(),
+        instagram: document.getElementById("inputInstagram").value.trim(),
+        facebook: document.getElementById("inputFacebook").value.trim(),
+        greeting: document.getElementById("inputGreeting").value.trim()
+      };
+
+      localStorage.setItem(DATA_KEY, JSON.stringify(updated));
+
+      const newUser = document.getElementById("inputNewUsername").value.trim();
+      const newPass = document.getElementById("inputNewPassword").value;
+      if (newUser || newPass) {
+        const auth = await getAuth();
+        if (newUser) auth.username = newUser;
+        if (newPass) auth.passwordHash = await hashPassword(newPass);
+        localStorage.setItem(AUTH_KEY, JSON.stringify(auth));
+      }
+
+      renderProfile();
+      lockPanel();
+      showToast("Biodata berjaya disimpan!");
+    });
+
+    renderProfile();
+  </script>
+</body>
+</html>
